@@ -1,5 +1,7 @@
 from django.test import TestCase
 
+
+
 from ..classes import Identifier, CheckDigit
 from ..exceptions import CheckDigitError, IdentifierEncodingError, IdentifierDecodingError
 from ..models import IdentifierTracker
