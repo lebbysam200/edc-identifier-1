@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from ..classes import Identifier
+from ..classes import Identifier, CheckDigit
 from ..exceptions import CheckDigitError, IdentifierEncodingError, IdentifierDecodingError
 from ..models import IdentifierTracker
 
@@ -131,3 +131,17 @@ class TestIdentifierMethods(TestCase):
         self.assertEqual(identifier._get_identifier_string(), '10041021314')
         identifier.create()
         self.assertEqual(identifier._get_identifier_string(), '10041021325')
+
+class TestCheckDigitMethods(TestCase): 
+
+    def test_check_digit_with_correct_output(self):
+       """test if the expected check digit is returned"""
+       self.assertEqual(CheckDigit.calculate(201202379, 12),5)
+
+    def test_check_digit_with_wrong_output(self):
+        """test if method guards against unexpected output"""
+        self.assertNotEqual(CheckDigit.calculate(1234562, 1234),4)
+
+    def test_with_incorrect_input(self):
+        """check if method guards against incorrect input"""
+        self.assertRaises(ValueError,CheckDigit.calculate,78126,"infant")
