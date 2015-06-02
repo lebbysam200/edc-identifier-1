@@ -133,15 +133,31 @@ class TestIdentifierMethods(TestCase):
         self.assertEqual(identifier._get_identifier_string(), '10041021325')
 
 class TestCheckDigitMethods(TestCase): 
-
+   
     def test_check_digit_with_correct_output(self):
        """test if the expected check digit is returned"""
-       self.assertEqual(CheckDigit.calculate(201202379, 12),5)
+       identifier = 201202375
+       number = 75
+       checkDigit = identifier % 10
+       self.assertEqual(CheckDigit.calculate(identifier, number),checkDigit)
 
     def test_check_digit_with_wrong_output(self):
         """test if method guards against unexpected output"""
-        self.assertNotEqual(CheckDigit.calculate(1234562, 1234),4)
+        identifier = 201202379
+        number = 79
+        checkDigit = identifier % 10
+        self.assertNotEqual(CheckDigit.calculate(identifier,number),checkDigit)
 
-    def test_with_incorrect_input(self):
+    def test_check_digit_with_incorrect_input(self):
         """check if method guards against incorrect input"""
-        self.assertRaises(ValueError,CheckDigit.calculate,78126,"infant")
+        identifier = 201202379
+        number = "something"
+        checkDigit = identifier % 10
+        self.assertRaises(ValueError,CheckDigit.calculate,identifier,number)
+        
+    def test_check_digit_with_string_identifier(self):
+        """check if method allows for string identifiers"""
+        id = "AYET"
+        number = 27
+        checkDigit =number % 10
+        self.assertNotEqual(CheckDigit.calculate(id,number),checkDigit)
