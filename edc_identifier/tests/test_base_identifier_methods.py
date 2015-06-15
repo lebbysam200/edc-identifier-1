@@ -1,0 +1,38 @@
+from django.test import TestCase
+from ..models import BaseIdentifierModel
+from ..classes import BaseIdentifier, SubjectIdentifier
+
+class TestBaseIdentifier(BaseIdentifierModel,BaseIdentifier):
+    
+    class Meta:
+        app_label = 'edc_identifier'
+
+class TestModelTestCase(TestCase):
+    
+    def setUp(self):
+        is_derived = False
+        add_check_digit = False
+        self.identifier = SubjectIdentifier(model_name = 'sequence', app_name = 'edc_identifier', identifier_prefix = '066',
+                                            is_derived=is_derived, site_code='12', add_check_digit=add_check_digit)
+        self.identifier.modulus = 7
+        
+    def test_get_sequnce_app_label(self):
+        self.assertEqual(self.identifier._get_sequence_app_label(), 'edc_identifier')
+        
+    def test_get_identifier_post(self):
+        self.assertEqual(self.identifier.get_identifier_post(identifier='038-12990001-1'),'038-12990001-1')
+        
+    def test_get_identifier_prep(self):
+        self.assertEqual(self.identifier._get_identifier_prep(),
+                         {'identifier_prefix': '066', 'site_code': '12', 'device_id': '99'})
+        
+    def test_get_check_digit(self):
+        self.assertEqual(self.identifier.get_check_digit(base_new_identifier = '038-12990002'),'038-12990002')
+        
+    def test_get_check_digit1(self):
+        self.identifier.add_check_digit = True
+        self.assertEqual(self.identifier.get_check_digit(base_new_identifier = '038-12990002'),'038-12990002-3')
+    
+    def test_get_identifier(self, **kwargs):
+        add_check_digit = True
+        print(self.identifier.get_identifier(add_check_digit=add_check_digit, **kwargs))

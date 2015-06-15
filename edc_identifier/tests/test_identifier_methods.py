@@ -2,7 +2,7 @@ from django.test import TestCase
 
 
 
-from ..classes import Identifier, CheckDigit
+from ..classes import Identifier
 from ..exceptions import CheckDigitError, IdentifierEncodingError, IdentifierDecodingError
 from ..models import IdentifierTracker
 
@@ -15,7 +15,7 @@ class TestIdentifierMethods(TestCase):
         self.identifier = Identifier(identifier_type='subject', site_code=site_code, mm=mm, yy=yy)
 
     def test_encoding(self):
-        """Assert encodeing"""
+        """Assert encoding"""
         self.assertEqual(self.identifier.encode(123123123, 'base36'), '21AYER')
 
     def test_encoding2(self):
@@ -134,32 +134,3 @@ class TestIdentifierMethods(TestCase):
         identifier.create()
         self.assertEqual(identifier._get_identifier_string(), '10041021325')
 
-class TestCheckDigitMethods(TestCase): 
-   
-    def test_check_digit_with_correct_output(self):
-       """test if the expected check digit is returned"""
-       identifier = 201202375
-       number = 75
-       checkDigit = identifier % 10
-       self.assertEqual(CheckDigit.calculate(identifier, number),checkDigit)
-
-    def test_check_digit_with_wrong_output(self):
-        """test if method guards against unexpected output"""
-        identifier = 201202379
-        number = 79
-        checkDigit = identifier % 10
-        self.assertNotEqual(CheckDigit.calculate(identifier,number),checkDigit)
-
-    def test_check_digit_with_incorrect_input(self):
-        """check if method guards against incorrect input"""
-        identifier = 201202379
-        number = "something"
-        checkDigit = identifier % 10
-        self.assertRaises(ValueError,CheckDigit.calculate,identifier,number)
-        
-    def test_check_digit_with_string_identifier(self):
-        """check if method allows for string identifiers"""
-        id = "AYET"
-        number = 27
-        checkDigit =number % 10
-        self.assertNotEqual(CheckDigit.calculate(id,number),checkDigit)
