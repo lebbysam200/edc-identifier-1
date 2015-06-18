@@ -1,12 +1,11 @@
-import re
 from django.test import TestCase
 from ..classes import CheckDigit
 
 class TestCheckDigitMethods(TestCase): 
     
     def setUp(self):
-        self.identifier = '066-12980443'
-        self.number = int(re.search(r'\d+', self.identifier).group())
+        self.identifier = "066-12980443"
+        self.number = int(''.join(x for x in self.identifier if x.isdigit()))
    
     def test_check_digit_with_correct_output(self):
         """test if the expected check digit is returned"""

@@ -12,7 +12,7 @@ class TestModelTestCase(TestCase):
     def setUp(self):
         is_derived = False
         add_check_digit = False
-        self.identifier = SubjectIdentifier(model_name = 'sequence', app_name = 'edc_identifier', identifier_prefix = '066',
+        self.identifier = SubjectIdentifier(model_name = 'subjectidentifier', app_name = 'edc_identifier', identifier_prefix = '066',
                                             is_derived=is_derived, site_code='12', add_check_digit=add_check_digit)
         self.identifier.modulus = 7
         
@@ -33,6 +33,12 @@ class TestModelTestCase(TestCase):
         self.identifier.add_check_digit = True
         self.assertEqual(self.identifier.get_check_digit(base_new_identifier = '038-12990002'),'038-12990002-3')
     
-    def test_get_identifier(self, **kwargs):
+    def test_get_identifier(self):
         add_check_digit = True
-        print(self.identifier.get_identifier(add_check_digit=add_check_digit, **kwargs))
+        """assert that the first identifier created is 066-12990001-2"""
+        self.assertEqual(self.identifier.get_identifier(add_check_digit=add_check_digit),'066-12990001-2')
+    
+    def test_get_identifier1(self):
+        add_check_digit = False
+        self.assertEqual(self.identifier.get_identifier(add_check_digit=add_check_digit),'066-12990001')
+        
