@@ -94,7 +94,8 @@ class InfantIdentifier(BaseIdentifier):
             initials='',
             registration_status='registered',
             relative_identifier=self.maternal_identifier,
-            study_site=self.study_site)
+            study_site=self.study_site
+            )
         return new_identifier
 
     def _get_suffix(self):

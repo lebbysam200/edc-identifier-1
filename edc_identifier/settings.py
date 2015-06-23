@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'edc_identifier',
+    'edc_registration',
 )
 
 MIDDLEWARE_CLASSES = (

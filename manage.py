@@ -8,6 +8,7 @@ if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "edc_identifier.settings")
     sys.path.insert(1, os.path.join(SOURCE_ROOT, 'edc-base/'))
     sys.path.insert(1, os.path.join(SOURCE_ROOT, 'edc-device/'))
+    sys.path.insert(1, os.path.join(SOURCE_ROOT, 'edc-registration/'))
     from django.core.management import execute_from_command_line
 
     execute_from_command_line(sys.argv)

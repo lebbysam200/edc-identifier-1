@@ -1,11 +1,6 @@
 from django.test import TestCase
-from ..models import BaseIdentifierModel
-from ..classes import BaseIdentifier, SubjectIdentifier
 
-class TestBaseIdentifier(BaseIdentifierModel,BaseIdentifier):
-    
-    class Meta:
-        app_label = 'edc_identifier'
+from ..classes import SubjectIdentifier
 
 class TestModelTestCase(TestCase):
     
@@ -41,4 +36,12 @@ class TestModelTestCase(TestCase):
     def test_get_identifier1(self):
         add_check_digit = False
         self.assertEqual(self.identifier.get_identifier(add_check_digit=add_check_digit),'066-12990001')
+        
+    def test_get_identifier2(self):
+        self.identifier.add_check_digit = None
+        self.assertRaises(AttributeError,self.identifier.get_identifier,self.identifier.add_check_digit)
+        
+    def test_get_identifier3(self):
+        self.identifier.is_derived = None
+        self.assertRaises(AttributeError,self.identifier.get_identifier,self.identifier.add_check_digit)
         
