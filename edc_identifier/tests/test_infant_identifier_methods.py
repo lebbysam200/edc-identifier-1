@@ -24,7 +24,7 @@ class TestModelTestCase(TestCase):
 
     def setUp(self):
         app_name='edc_identifier'
-        model_name='subjectidentifier'
+        model_name='testinfantidentifier'
         is_derived = False
         add_check_digit = False
         self.identifier = SubjectIdentifier(model_name='subjectidentifier', app_name=app_name, identifier_prefix = '066',
@@ -36,21 +36,28 @@ class TestModelTestCase(TestCase):
                                         live_infants_to_register=3)
          
     def test_get_identifier_prep(self):
-        self.assertEqual(self.infantId.get_identifier_prep(),{'suffix': 56, 'maternal_identifier': '066-12990001-2'})
+        id_prep = {'suffix': 56, 'maternal_identifier': '066-12990001-2'}
+        self.assertEqual(self.infantId.get_identifier_prep(),id_prep)
         
     def test_get_identifier_prep1(self):
+        """asserts get_identifier_prep guards against trying to get an identifier when there are no live infants to register"""
         self.infantId.live_infants_to_register=0
         self.assertRaises(IdentifierError, self.infantId._get_identifier_prep)
 
     def test_get_identifier_prep2(self):
+        """asserts get_identifier_prep guards against trying to register more infants than are alive"""
         self.infantId.live_infants=1
         self.assertRaises(IdentifierError, self.infantId._get_identifier_prep)
     
     def test_get_base_suffix(self):
-        self.assertEqual(self.infantId._get_base_suffix(),36)
+        """asserts the base suffix is calculated correctly"""
+        base_suffix = 36
+        self.assertEqual(self.infantId._get_base_suffix(),base_suffix)
           
     def test_get_suffix(self):
-        self.assertEqual(self.infantId._get_suffix(),56)
+        """asserts the suffix is calculated properly"""
+        suffix = 56
+        self.assertEqual(self.infantId._get_suffix(),suffix)
     
     def test_get_identifier_post(self, **kwargs):
-        print(self.infantId.get_identifier_post(new_identifier=self.identifier.get_identifier(add_check_digit=True),**kwargs))
+        print(self.infantId.get_identifier_post(new_identifier='066-12990001-2'))
