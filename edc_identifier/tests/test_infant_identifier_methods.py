@@ -1,18 +1,22 @@
 from django.test import TestCase
 
 from ..exceptions import IdentifierError
-from ..models import BaseIdentifierModel
+# from ..models import BaseIdentifierModel
 from edc_base.model.models import BaseUuidModel
 from ..classes import InfantIdentifier, SubjectIdentifier
 
 from django.db import models
 
-class StudySite(BaseUuidModel):
+class StudySite(models.Model):
     
     site_code = models.CharField(max_length=4, unique=True)
     site_name = models.CharField(max_length=35, unique=True)
+
+    class Meta:
+        app_label = 'edc_identifier'
+        ordering = ['site_code']
     
-class TestInfantIdentifier(BaseIdentifierModel):
+class TestInfantIdentifier(BaseUuidModel):
     
     objects = models.Manager()
     
@@ -24,15 +28,14 @@ class TestModelTestCase(TestCase):
 
     def setUp(self):
         app_name='edc_identifier'
-        model_name='testinfantidentifier'
         is_derived = False
         add_check_digit = False
         self.identifier = SubjectIdentifier(model_name='subjectidentifier', app_name=app_name, identifier_prefix = '066',
                                             is_derived=is_derived, site_code='12', add_check_digit=add_check_digit)
         self.identifier.modulus = 7
-        studySite = StudySite(site_code = 19, site_name = "Molepolole")
-        self.infantId = InfantIdentifier(app_name=app_name,model_name=model_name,maternal_identifier=self.identifier.get_identifier
-                                        (add_check_digit=True),study_site = studySite,birth_order=2, live_infants=3, 
+        study_site = StudySite(site_code = '19', site_name = "Molepolole")
+        self.infantId = InfantIdentifier(app_name=app_name,model_name='subjectidentifier',maternal_identifier=self.identifier.get_identifier
+                                        (add_check_digit=True),study_site = study_site,birth_order=2, live_infants=3, 
                                         live_infants_to_register=3)
          
     def test_get_identifier_prep(self):
@@ -59,5 +62,5 @@ class TestModelTestCase(TestCase):
         suffix = 56
         self.assertEqual(self.infantId._get_suffix(),suffix)
     
-    def test_get_identifier_post(self, **kwargs):
-        print(self.infantId.get_identifier_post(new_identifier='066-12990001-2'))
+#     def test_get_identifier_post(self, **kwargs):
+#         print(self.infantId.get_identifier_post(new_identifier='066-12990001-2-56'))

@@ -11,7 +11,7 @@ class TestModelTestCase(TestCase):
                                             is_derived=is_derived, site_code='12', add_check_digit=add_check_digit)
         self.identifier.modulus = 7
         
-    def test_get_sequnce_app_label(self):
+    def test_get_sequence_app_label(self):
         self.assertEqual(self.identifier._get_sequence_app_label(), 'edc_identifier')
         
     def test_get_identifier_post(self):
@@ -44,4 +44,9 @@ class TestModelTestCase(TestCase):
     def test_get_identifier3(self):
         self.identifier.is_derived = None
         self.assertRaises(AttributeError,self.identifier.get_identifier,self.identifier.add_check_digit)
+        
+    def test_get_identifier4(self):
+        add_check_digit = True
+        identifier1 = self.identifier.get_identifier(add_check_digit=add_check_digit)
+        self.assertNotEqual(self.identifier.get_identifier(add_check_digit=add_check_digit),identifier1)
         
