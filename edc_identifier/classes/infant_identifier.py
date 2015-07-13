@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from edc_registration.models import RegisteredSubject
-
+from uuid import uuid4
 from ..exceptions import IdentifierError
 from ..models import SubjectIdentifier
 
@@ -36,7 +36,7 @@ class InfantIdentifier(BaseIdentifier):
     """
 
     def __init__(self, maternal_identifier, study_site, birth_order, live_infants,
-                 live_infants_to_register, user=None,**kwargs):
+                 live_infants_to_register, user=None, **kwargs):
         self.subject_type = 'infant'
         self.birth_order = birth_order
         self.live_infants = live_infants
@@ -47,7 +47,7 @@ class InfantIdentifier(BaseIdentifier):
         identifier_format = "{maternal_identifier}-{suffix}"
         super(InfantIdentifier, self).__init__(
             identifier_format=identifier_format, site_code=study_site.site_code, is_derived=True,
-            add_check_digit=False,**kwargs)
+            add_check_digit=False, **kwargs)
 
     def consent_required(self):
         return False
@@ -94,8 +94,9 @@ class InfantIdentifier(BaseIdentifier):
             initials='',
             registration_status='registered',
             relative_identifier=self.maternal_identifier,
-            study_site=self.study_site
-            )
+            subject_identifier_as_pk=str(uuid4()),
+            site_code=self.study_site.site_code
+        )
         return new_identifier
 
     def _get_suffix(self):

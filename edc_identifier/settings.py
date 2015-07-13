@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'edc_identifier',
     'edc_registration',
+    'django_crypto_fields',
 )
 
 MIDDLEWARE_CLASSES = (

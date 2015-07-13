@@ -363,4 +363,3 @@ class Identifier(object):
                 if not decoded_value_keeps_check_digit:
                     decoded_number = decoded_number[0:-check_digit_length]
         return int(decoded_number)
-

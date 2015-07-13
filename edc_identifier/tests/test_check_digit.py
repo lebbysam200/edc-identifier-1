@@ -21,4 +21,3 @@ class TestCheckDigitMethods(TestCase):
         """check if method guards against incorrect input"""
         self.number = "something"
         self.assertRaises(ValueError,CheckDigit.calculate,self.identifier,self.number)
-        
