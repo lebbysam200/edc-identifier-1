@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 import os
 import sys
+from unipath import Path
 
-SOURCE_ROOT = os.path.expanduser('~/git')
+SOURCE_ROOT = Path(os.path.dirname(os.path.realpath(__file__))).ancestor(1)
+
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "edc_identifier.settings")
