@@ -140,8 +140,8 @@ class BaseIdentifier(object):
         format_options = self._get_identifier_prep(**kwargs)
         if self.is_derived is None:
             raise AttributeError('Instance attribute is_derived has not been set. Options are True/False')
-        history_model = self._get_identifier_history_model_options()
-        self.identifier_model = self.identifier_history_model.objects.using(self.using).create(history_model)
+        self.identifier_model = self.identifier_history_model.objects.using(
+            self.using).create(**self._get_identifier_history_model_options())
         format_options.update(sequence=self.identifier_model.formatted_sequence)
         if self.is_derived:
             # if derived, does not use a sequence number -- that is the sequence is in the base edc_identifier,

@@ -31,8 +31,7 @@ class TestModelTestCase(TestCase):
     
     def test_get_identifier(self):
         """asserts that the first identifier created is 066-12990001-2"""
-        add_check_digit = True
-        self.assertEqual(self.identifier.get_identifier(add_check_digit=add_check_digit),'066-12990001-2')
+        self.assertEqual(self.identifier.get_identifier(add_check_digit=True),'066-12990001-2')
     
     def test_get_identifier1(self):
         """asserts that no check digit is added if not needed"""
