@@ -116,3 +116,8 @@ PRODUCER_PREFIX = 'bcpp'
 SERVER_DEVICE_ID_LIST = [97, 98, 99]
 # list of IDs reserved for middleman nodes
 MIDDLEMAN_DEVICE_ID_LIST = [94, 95, 96]
+# modulus to calculate check digit
+IDENTIFIER_MODULUS = 7
+# prefix for all participant identifiers
+IDENTIFIER_PREFIX = '066'
+MAX_SUBJECTS = 3000
